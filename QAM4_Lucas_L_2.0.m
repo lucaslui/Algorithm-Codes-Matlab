@@ -1,8 +1,8 @@
 %==========================================================================
 % Aluno: Lucas Lui Motta      RA: 192701
 % Data: 02/05/2017
-% Disciplina: Introd. ComunicaÁıes Digitais I
-% PÛs-graduaÁ„o: Mestrado
+% Disciplina: Introd. Comunica√ß√µes Digitais I
+% P√≥s-gradua√ß√£o: Mestrado
 %==========================================================================
 % Programa MATLAB para 4-QAM:
 % 
@@ -12,13 +12,13 @@
 %       - Transladar o sinal para RF;
 % 
 % Canal:
-%       - Inserir RuÌdo AWGN;
+%       - Inserir Ru√≠do AWGN;
 % Rx:
 %       - Transladar para banda base e filtrar usando filtro casado;
 %       - Obter o sinal em fase e quadratura;
 %       - Amostragem;
-%       - Obter diagrama de constelaÁ„o recebido;
-%       - Estimar os sÌmbolos transmitidos;
+%       - Obter diagrama de constela√ß√£o recebido;
+%       - Estimar os s√≠mbolos transmitidos;
 %
 % Calcular a SER (Symbol Error Rate).
 %==========================================================================
@@ -28,29 +28,29 @@ clear all;
 close all;
 
 %==========================================================================
-% Par‚metros gerais do Tx-Rx 4-QAM
+% Par√¢metros gerais do Tx-Rx 4-QAM
 
-% Par‚metros Ajust·veis (F_bits e K com problema):
-F_bits = 20; % Criado um fator de bits que ser„o transmitidos (p/ truncamento).
-K = 10; % Fator de super-amostragem para a convoluÁ„o do sinal com o filtro formatador.
-Fs = 1e3; % Bit Rate [bits/segundo] ou FrequÍncia de Amostragem - Ex: 1.000 [Hz]
-Fc = 1e6; % FrequÍncia da portadora - Ex: 1 [Mhz].
+% Par√¢metros Ajust√°veis (F_bits e K com problema):
+F_bits = 20; % Criado um fator de bits que ser√£o transmitidos (p/ truncamento).
+K = 10; % Fator de super-amostragem para a convolu√ß√£o do sinal com o filtro formatador.
+Fs = 1e3; % Bit Rate [bits/segundo] ou Frequ√™ncia de Amostragem - Ex: 1.000 [Hz]
+Fc = 1e6; % Frequ√™ncia da portadora - Ex: 1 [Mhz].
 amplt = 2; % Amplitude do simbolo modulado, que causa impacto direto na energia do sinal.
 alfa = 0.8; % Fator alfa cosseno levantado utilizado no filtro formatador.
-SNR = 5; % RelaÁ„o sinal ruÌdo, entre o sinal RF que ser· transmitido e o ruÌdo AWGN recebido.
+SNR = 5; % Rela√ß√£o sinal ru√≠do, entre o sinal RF que ser√° transmitido e o ru√≠do AWGN recebido.
 
-% Par‚metros Autom·ticos:
-M_Order = 4; % Ordem da modulaÁ„o QAM - Ex: 4-QAM.
-B_symb = log2(M_Order); % N˙mero de bits por simbolo - Ex: log2(4) = 2 [bits/simbolo].
-N_symb = F_bits*B_symb; % N˙mero de simbolos que ser„o transmitidos - Ex: 10*(2) = 20 [simbolos].
-N_bits = B_symb*N_symb; % N˙mero de bits que ser„o enviados.
-Ts = 1/Fs; % PerÌodo entre bits chegando na stream.
-Fb = Fs/M_Order; % Baud Rate [sÌmbolos/segundo] - Ex: 1.000/4-QAM = 250Hz [simbolos/segundo].
-Tb = 1/Fb; % PerÌodo de sÌmbolos transmitidos.
+% Par√¢metros Autom√°ticos:
+M_Order = 4; % Ordem da modula√ß√£o QAM - Ex: 4-QAM.
+B_symb = log2(M_Order); % N√∫mero de bits por simbolo - Ex: log2(4) = 2 [bits/simbolo].
+N_symb = F_bits*B_symb; % N√∫mero de simbolos que ser√£o transmitidos - Ex: 10*(2) = 20 [simbolos].
+N_bits = B_symb*N_symb; % N√∫mero de bits que ser√£o enviados.
+Ts = 1/Fs; % Per√≠odo entre bits chegando na stream.
+Fb = Fs/M_Order; % Baud Rate [s√≠mbolos/segundo] - Ex: 1.000/4-QAM = 250Hz [simbolos/segundo].
+Tb = 1/Fb; % Per√≠odo de s√≠mbolos transmitidos.
 
 %==========================================================================
 %                           Data - Stream
-% Gerador pseudo-randomico de dados bin·rios para simular a stream a ser
+% Gerador pseudo-randomico de dados bin√°rios para simular a stream a ser
 % transmitida com a determinada Fs escolhida.
 
 data = randi([0,1], 1, N_bits);
@@ -63,8 +63,8 @@ axis([0 N_bits/Fs 0 1.3]);
 
 %==========================================================================
 %                              Slicer
-% Dividindo os dados da stream bin·ria de entrada em dois caminhos,
-% aqueles que v„o na parte InPhase do sinal e aquelas que v„o em 
+% Dividindo os dados da stream bin√°ria de entrada em dois caminhos,
+% aqueles que v√£o na parte InPhase do sinal e aquelas que v√£o em 
 % Quadrature.
 
 data_I = data(1:2:end);
@@ -103,12 +103,11 @@ subplot(4,2,6); stem(t_mapQ, data_mapped_Q, 'r');
 title('Sinal PAM Quadrature');
 axis([0 (N_bits/2)/Fs Ymin-0.3 Ymax+0.3]);
 
-
 %==========================================================================
 %                       Pulse Shaping Filter 
-% ApÛs o mapeamento da stream em simbolos a serem transmitidos, os sÌmbolos 
-% s„o passados por um filtro formatador. O sinal utilizado como pulso
-% formatador È o frequentemente utilizado cosseno levantado.
+% Ap√≥s o mapeamento da stream em simbolos a serem transmitidos, os s√≠mbolos 
+% s√£o passados por um filtro formatador. O sinal utilizado como pulso
+% formatador √© o frequentemente utilizado cosseno levantado.
 
 rcos_coefs = rcosfir(alfa, 3, K, Tb, 'sqrt');
 
@@ -116,23 +115,23 @@ signal_data_I = conv(rcos_coefs, upsample(data_mapped_I, K));
 signal_data_Q = conv(rcos_coefs, upsample(data_mapped_Q, K));
 
 signal_data_I = signal_data_I(31:end-30); % o filtro gera uma cauda de tamanho:
-signal_data_Q = signal_data_Q(31:end-30); % ((2*3)+1)*K = 70, que È removida.
+signal_data_Q = signal_data_Q(31:end-30); % ((2*3)+1)*K = 70, que √© removida.
 
 t_filt = linspace(0+(1/Fs), (N_bits/2)/Fs, length(signal_data_Q));
 
 figure(1);
 subplot(4,2,7); plot(t_filt, signal_data_I, 'g');
-title('Sinal InPhase contÌnuo pÛs-filtro'); 
+title('Sinal InPhase cont√≠nuo p√≥s-filtro'); 
 axis([0 (N_bits/2)/Fs Ymin Ymax]);
 
 subplot(4,2,8); plot(t_filt, signal_data_Q', 'r');
-title('Sinal Quadrature contÌnuo pÛs-filtro'); 
+title('Sinal Quadrature cont√≠nuo p√≥s-filtro'); 
 axis([0 (N_bits/2)/Fs Ymin Ymax]);
 
 %==========================================================================
 %                           Up-Converter 
 % Move-se o sinal de banda base para banda passante, e soma ambos sinais 
-% InPhase e Quadrature para transmiss„o pela antena.
+% InPhase e Quadrature para transmiss√£o pela antena.
 
 t_uc = linspace(0, (N_bits/2)/Fs, length(signal_data_I));
 
@@ -158,8 +157,8 @@ title('Sinal RF - Antena'); axis tight;
 
 %==========================================================================
 %                           Signal Corrupted
-% Na transmiss„o do sinal no canal, o mesmo È prejudicado pela presenÁa de
-% ruÌdo, para simular esse ruÌdo aleatÛrio È adotado um ruÌdo do tipo
+% Na transmiss√£o do sinal no canal, o mesmo √© prejudicado pela presen√ßa de
+% ru√≠do, para simular esse ru√≠do aleat√≥rio √© adotado um ru√≠do do tipo
 % branco gaussiano (AWGN).
 
 signal_RFandNoise = awgn(signal_RF, SNR);
@@ -170,13 +169,13 @@ subplot(6,1,1); plot(t_rf, signal_RF, 'k');
 title('Sinal RF - Transmitido'); axis tight;
 
 subplot(6,1,2); plot(t_rf, signal_RFandNoise, 'm');
-title('Sinal RF + RuÌdo AWGN c/ SNR 5 - Recebido'); axis tight;
+title('Sinal RF + Ru√≠do AWGN c/ SNR 5 - Recebido'); axis tight;
 
 %==========================================================================
 %                           Down-Converter
-% O primeiro passo do receptor È mover o sinal na banda passante para banda
-% base utilizando o down-converter, que È formado pelo filtro U(f) e o
-% o mixer com a funÁ„o de deslocamento.
+% O primeiro passo do receptor √© mover o sinal na banda passante para banda
+% base utilizando o down-converter, que √© formado pelo filtro U(f) e o
+% o mixer com a fun√ß√£o de deslocamento.
 
 baseBand_Rx_I =  signal_RFandNoise.*sqrt(2).*cos(2*pi*Fc*t_uc);
 baseBand_Rx_Q =  signal_RFandNoise.*-sqrt(2).*sin(2*pi*Fc*t_uc);
@@ -198,17 +197,17 @@ subplot(6,1,3); plot(t_rf, baseBand_Rx_I, 'g');
 title('Sinal InPhase deslocado p/ Banda Base'); axis tight;
 
 subplot(6,1,4); plot(t_rf, baseBand_Rx_I_LPF, 'g');
-title('Sinal InPhase pÛs-LPF'); axis tight;
+title('Sinal InPhase p√≥s-LPF'); axis tight;
 
 subplot(6,1,5); plot(t_rf, baseBand_Rx_Q, 'r');
 title('Sinal Quadrature deslocado p/ Banda Base'); axis tight;
 
 subplot(6,1,6); plot(t_rf, baseBand_Rx_Q_LPF, 'r');
-title('Sinal Quadrature pÛs-LPF'); axis tight;
+title('Sinal Quadrature p√≥s-LPF'); axis tight;
 
 %==========================================================================
 %                         Matched Filter
-% Utilizando filtro casado para reduÁ„o do ruÌdo causado no sinal.
+% Utilizando filtro casado para redu√ß√£o do ru√≠do causado no sinal.
 
 signal_Rx_I = conv(rcos_coefs, baseBand_Rx_I_LPF);
 signal_Rx_Q = conv(rcos_coefs, baseBand_Rx_Q_LPF);
@@ -221,13 +220,13 @@ subplot(4,1,1); plot(t_rf, baseBand_Rx_I_LPF, 'g');
 title('Sinal InPhase Ruidoso'); axis tight;
 
 subplot(4,1,2); plot(t_rf, signal_Rx_I, 'g');
-title('Sinal InPhase pÛs-Filtro Casado'); axis tight;
+title('Sinal InPhase p√≥s-Filtro Casado'); axis tight;
 
 subplot(4,1,3); plot(t_rf, baseBand_Rx_Q_LPF, 'r');
 title('Sinal Quadrature Ruidoso'); axis tight;
 
 subplot(4,1,4); plot(t_rf, signal_Rx_Q, 'r');
-title('Sinal Quadrature pÛs-Filtro Casado'); axis tight;
+title('Sinal Quadrature p√≥s-Filtro Casado'); axis tight;
 
 %==========================================================================
 %                             Sampling
@@ -241,10 +240,10 @@ t_Q = linspace(0+(1/Fs), (N_bits/2)/Fs, N_symb);
 
 figure(5);
 subplot(4,2,1); plot(t_rf, signal_Rx_I, 'g');
-title('Sinal InPhase pÛs-Filtro Casado'); axis tight;
+title('Sinal InPhase p√≥s-Filtro Casado'); axis tight;
 
 subplot(4,2,2); plot(t_rf, signal_Rx_Q, 'r');
-title('Sinal Quadrature pÛs-Filtro Casado'); axis tight;
+title('Sinal Quadrature p√≥s-Filtro Casado'); axis tight;
 
 subplot(4,2,3); stem(t_I, data_Rx_I_sampl, 'g');
 title('Sinal InPhase Amostrado'); 
@@ -256,7 +255,7 @@ axis([0 (N_bits/2)/Fs Ymin-1 Ymax+1]);
 
 %==========================================================================
 %                  Comparator - "Demapper" - Decoding
-% Essa operaÁ„o trunca o valor recebido no simbolo mais prÛximo
+% Essa opera√ß√£o trunca o valor recebido no simbolo mais pr√≥ximo
 % definido anteriormente no mapper do transmissor.
 
 data_Rx_I = zeros(1, N_bits/2);
@@ -327,21 +326,21 @@ title('Espectro do sinal InPhase no Transmissor'); axis tight;
 subplot(3,3,2); plot(f_base, spectro_Rx_I_LPF, 'g');
 title('Espectro sinal ruidoso em Banda Base (InPhase) no Receptor'); axis tight;
 subplot(3,3,3); plot(f_base, spectro_Rx_I_MatchedFilter, 'g');
-title('Espectro sinal apÛs filtro casado no Receptor'); axis tight;
+title('Espectro sinal ap√≥s filtro casado no Receptor'); axis tight;
 
 subplot(3,3,4); plot(f_base, spectro_Tx_Q, 'r');
 title('Espectro do sinal Quadrature no Transmissor'); axis tight;
 subplot(3,3,5); plot(f_base, spectro_Rx_Q_LPF, 'r');
 title('Espectro sinal ruidoso em Banda Base (Quadrature) no Receptor'); axis tight;
 subplot(3,3,6); plot(f_base, spectro_Rx_Q_MatchedFilter, 'r');
-title('Espectro sinal apÛs filtro casado no Receptor'); axis tight;
+title('Espectro sinal ap√≥s filtro casado no Receptor'); axis tight;
 
 subplot(3,3,[7,8,9]); plot(f_pass, spectro_RF, 'k');
 title('Especto Sinal RF sendo emitido pelo Transmissor'); axis tight;
 
 %==========================================================================
 %                       Constellation Points
-% Plotando as constelaÁıes dos simbolos que ser„o transmistidos.
+% Plotando as constela√ß√µes dos simbolos que ser√£o transmistidos.
 
 figure(7);
 plot(data_mapped_I, data_mapped_Q, 'or', data_Rx_I_sampl, data_Rx_Q_sampl, 'ob');
@@ -350,12 +349,12 @@ axis([Ymin-0.7 Ymax+0.7 Ymin-0.7 Ymax+0.7]);
 
 %==========================================================================
 %                       Symbol Error Rate
-% Calculando o n˙mero de erros de sÌmbolo e a taxa associas.
+% Calculando o n√∫mero de erros de s√≠mbolo e a taxa associas.
 
 [Number_Error, Ratio_Error] = symerr(data,data_Rx');
 
 Ratio_Error = Ratio_Error + 0.0001; % Para evitar erro na hora do plot
-                                    % quando o valor de erro È nulo.
+                                    % quando o valor de erro √© nulo.
 figure(8);
 pmf_X = [Ratio_Error (1-Ratio_Error)];
 pobj = pie(pmf_X);
