@@ -1,4 +1,4 @@
-Banco de Scripts e Funções feitos no Matlab
+Banco de Scripts e Funções feitas no Matlab
 -------------------------------------------------------------
 
 Objetivo:
