@@ -1,13 +1,13 @@
-function [] = Funcao_Filtragem_Analise(arquivo_sinal, arquivo_noise, gerar_arquivo_saida)
+function [] = Algorithm_Noise_Reduction(arquivo_sinal, arquivo_noise, gerar_arquivo_saida)
 
 % Script que recebe o arquivo .wav ruidoso, toca o som do mesmo, aplica
-% o algoritmo de subtração espectral, cria um .wav com a saída do algoritmo
-% e cria um gráfico dos espectros dos sinais.
+% o algoritmo de subtraÃ§Ã£o espectral, cria um .wav com a saÃ­da do algoritmo
+% e cria um grÃ¡fico dos espectros dos sinais.
 
 %==========================================================================
 %==========================================================================
-% Função wavread() lê o sinal de áudio .wav e retorna um vetor com cada
-% valor do sinal e a frequência de amostragem junto com o númuero de bits,
+% FunÃ§Ã£o wavread() lÃª o sinal de Ã¡udio .wav e retorna um vetor com cada
+% valor do sinal e a frequÃªncia de amostragem junto com o nÃºmuero de bits,
 % na qual foi codificada.
 
 [sinal,fs,nbits] = wavread(arquivo_sinal); 
@@ -15,11 +15,11 @@ function [] = Funcao_Filtragem_Analise(arquivo_sinal, arquivo_noise, gerar_arqui
 
 %==========================================================================
 %==========================================================================
-% Rotina que aplica os algoritmos de redução de ruído, no caso:
-% - A função SSBoll79() aplica a Subtração Espectral proposto por Boll.
-% - A função WienerScalart96() aplica o Filtro de Wiener proposto por
+% Rotina que aplica os algoritmos de reduÃ§Ã£o de ruÃ­do, no caso:
+% - A funÃ§Ã£o SSBoll79() aplica a SubtraÃ§Ã£o Espectral proposto por Boll.
+% - A funÃ§Ã£o WienerScalart96() aplica o Filtro de Wiener proposto por
 % Scalart.
-% - A função MMSESTSA84() aplica a técnica MMSE baseado em STSA.
+% - A funÃ§Ã£o MMSESTSA84() aplica a tÃ©cnica MMSE baseado em STSA.
 
 output_SS = SSBoll79(sinal,fs);
 output_Wiener = WienerScalart96(sinal,fs);
@@ -27,11 +27,11 @@ output_MMSE = MMSESTSA84(sinal,fs);
 
 %==========================================================================
 %==========================================================================
-% Trecho da função responsável por pegar o sinal filtrado e criar um 
+% Trecho da funÃ§Ã£o responsÃ¡vel por pegar o sinal filtrado e criar um 
 % arquivo .wav com o mesmo nome do arquivo original mas com o adento da 
-% descrição de filtrado. Função wavwrite() cria o arquivo .wav, função 
-% strcar() concate strings, função fileparts() retorna dados do arquivo, 
-% como extensão, nome e caminho.
+% descriÃ§Ã£o de filtrado. FunÃ§Ã£o wavwrite() cria o arquivo .wav, funÃ§Ã£o 
+% strcar() concate strings, funÃ§Ã£o fileparts() retorna dados do arquivo, 
+% como extensÃ£o, nome e caminho.
 
 if (strcmp(gerar_arquivo_saida,'sim') == 1)
     [pathstr,name,ext] = fileparts(arquivo_sinal);
@@ -42,8 +42,8 @@ end
 
 %==========================================================================
 %==========================================================================
-% Função subplot() e stem plota os graficos de ambos os sinais na mesma 
-% com o intervalo de valores desejado pela variável t.
+% FunÃ§Ã£o subplot() e stem plota os graficos de ambos os sinais na mesma 
+% com o intervalo de valores desejado pela variÃ¡vel t.
 
 N = length(sinal);
 M = length(output_SS);
@@ -103,32 +103,32 @@ RK_Hz = RK*fs/K;
 RJ_Hz = RJ*fs/J;
 
 subplot(2,4,5); plot(RN_Hz(1:N_2), fft_sinal(1:N_2),'k'); 
-xlabel('Frequência (Hz)'); 
+xlabel('FrequÃªncia (Hz)'); 
 ylabel('Magnitude'); 
 title('(e)'); 
 axis tight
 
 subplot(2,4,6); plot(RM_Hz(1:M_2), fft_output_SS(1:M_2),'b'); 
-xlabel('Frequência (Hz)'); 
+xlabel('FrequÃªncia (Hz)'); 
 ylabel('Magnitude'); 
 title('(f)'); 
 axis tight
 
 subplot(2,4,7); plot(RK_Hz(1:K_2), fft_output_Wiener(1:K_2),'g'); 
-xlabel('Frequência (Hz)'); 
+xlabel('FrequÃªncia (Hz)'); 
 ylabel('Magnitude'); 
 title('(g)'); 
 axis tight
 
 subplot(2,4,8); plot(RJ_Hz(1:J_2), fft_output_MMSE(1:J_2),'r'); 
-xlabel('Frequência (Hz)'); 
+xlabel('FrequÃªncia (Hz)'); 
 ylabel('Magnitude'); 
 title('(h)'); 
 axis tight
 
 %==========================================================================
 %==========================================================================
-% Trecho da função responsável por criar o espectograma dos sinais.
+% Trecho da funÃ§Ã£o responsÃ¡vel por criar o espectograma dos sinais.
 
 window_spec = hamming(512);
 noverlap = 256;
@@ -145,9 +145,9 @@ axis tight;
 view(0,90);
 set(gca,'clim',[-80 -30]);
 xlabel('Tempo (s)'); 
-ylabel('Frequência (Hz)');
+ylabel('FrequÃªncia (Hz)');
 c = colorbar;
-ylabel(c,'Potência');
+ylabel(c,'PotÃªncia');
 
 [S_SS,F_SS,T_SS,P_SS] = spectrogram(output_SS, window_spec, noverlap, nfft, fs, 'yaxis');
 subplot(2,2,2); 
@@ -157,9 +157,9 @@ axis tight;
 view(0,90);
 set(gca,'clim',[-80 -30]);
 xlabel('Tempo (s)'); 
-ylabel('Frequência (Hz)');
+ylabel('FrequÃªncia (Hz)');
 c = colorbar;
-ylabel(c,'Potência');
+ylabel(c,'PotÃªncia');
 
 [S_WI,F_WI,T_WI,P_WI] = spectrogram(output_Wiener, window_spec, noverlap, nfft, fs, 'yaxis');
 subplot(2,2,3);
@@ -168,9 +168,9 @@ title('(c)');
 axis tight; 
 view(0,90);
 set(gca,'clim',[-80 -30]);
-xlabel('Tempo (s)'); ylabel('Frequência (Hz)');
+xlabel('Tempo (s)'); ylabel('FrequÃªncia (Hz)');
 c = colorbar;
-ylabel(c,'Potência');
+ylabel(c,'PotÃªncia');
 
 [S_MM,F_MM,T_MM,P_MM] = spectrogram(output_MMSE, window_spec, noverlap, nfft, fs, 'yaxis');
 subplot(2,2,4);
@@ -179,15 +179,15 @@ title('(d)');
 axis tight; 
 view(0,90);
 set(gca,'clim',[-80 -30]);
-xlabel('Tempo (s)'); ylabel('Frequência (Hz)');
+xlabel('Tempo (s)'); ylabel('FrequÃªncia (Hz)');
 c = colorbar;
-ylabel(c,'Potência');
+ylabel(c,'PotÃªncia');
 
 colormap(hot); 
 
 %==========================================================================
 %==========================================================================
-% Rotina da função responsável por achar a SSNR (Relação Sinal-Ruído
+% Rotina da funÃ§Ã£o responsÃ¡vel por achar a SSNR (RelaÃ§Ã£o Sinal-RuÃ­do
 % Segmentada.
 
 snr_SS = snr_Lui_2(noise(1:M), output_SS);
