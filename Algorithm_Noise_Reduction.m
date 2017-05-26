@@ -18,10 +18,11 @@ function [] = Algorithm_Noise_Reduction(arquivo_sinal, arquivo_noise, gerar_arqu
 % Rotina que aplica os algoritmos de redução de ruído, no caso:
 % - A função SSBoll79() aplica a Subtração Espectral proposto por Boll.
 % - A função WienerScalart96() aplica o Filtro de Wiener proposto por
-% Scalart.
+%   Scalart.
 % - A função MMSESTSA84() aplica a técnica MMSE baseado em STSA.
+% Obs: Scripts encontrados na comunidade do Matlab.
 
-output_SS = SSBoll79(sinal,fs);
+output_SS = SSBoll79(sinal,fs); 
 output_Wiener = WienerScalart96(sinal,fs);
 output_MMSE = MMSESTSA84(sinal,fs);
 
