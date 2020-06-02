@@ -3,7 +3,7 @@ Banco de Scripts e Funções feitas no Matlab
 
 Objetivo:
 
-     Armazenar o código de alguns programas já feitos para evitar o retrabalho caso haja necessidade de refaze-los. 
+     Armazenar o código de alguns programas já feitos para evitar o retrabalho caso haja necessidade de reutiliza-los. 
      
 Autor:
 -------------------------------------------------------------
